@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Random Quote Generator Quotes — Futuristic Random Quote Generator</title>
+<meta name="description" content="A premium, futuristic random quote generator with glassmorphism, neon accents, favorites, search, and category filtering." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+<style>
+:root{
+  --bg:#0a0a18;--fg:#f0f1ff;--muted:#8b8fb3;--border:rgba(140,140,220,.18);
+  --primary:#5c8cff;--accent:#a26bff;--neon:#5ce0ff;--danger:#ff5577;
+  --grad:linear-gradient(120deg,#4a7dff,#9b5cff 50%,#4a7dff);
+  --glow:0 0 30px rgba(120,90,255,.45);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100%}
+body{
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 0%,rgba(70,80,255,.35),transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 10%,rgba(160,90,255,.3),transparent 60%),
+    radial-gradient(ellipse 60% 50% at 50% 100%,rgba(60,200,255,.22),transparent 65%);
+  background-attachment:fixed;overflow-x:hidden;
+}
+.grid-bg{position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:linear-gradient(rgba(120,140,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(120,140,255,.06) 1px,transparent 1px);background-size:40px 40px;z-index:0}
+.particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particles span{position:absolute;border-radius:50%;background:var(--primary);box-shadow:0 0 12px currentColor;filter:blur(1px);opacity:.5;animation:float 8s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0);opacity:.35}50%{transform:translate(10px,-30px);opacity:.85}}
+.glass{background:linear-gradient(135deg,rgba(40,40,80,.55),rgba(30,30,60,.4));backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid var(--border);border-radius:24px}
+header{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--border);background:rgba(10,10,24,.5);backdrop-filter:blur(20px)}
+.wrap{max-width:48rem;margin:0 auto;padding:0 1.25rem}
+.nav{height:64px;display:flex;align-items:center;justify-content:space-between;max-width:64rem;margin:0 auto;padding:0 1.25rem}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--fg)}
+.logo{width:32px;height:32px;border-radius:10px;background:var(--grad);background-size:200% 200%;animation:shift 4s ease infinite;display:grid;place-items:center;box-shadow:var(--glow);font-size:18px}
+@keyframes shift{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+.brand h1{font:600 18px Space Grotesk;margin:0;line-height:1}
+.brand small{font:500 9px JetBrains Mono;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+main{position:relative;z-index:1;padding:3rem 0 6rem}
+.chip{display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(92,140,255,.3);background:rgba(92,140,255,.1);color:var(--primary);padding:.3rem .75rem;border-radius:999px;font:500 10px JetBrains Mono;letter-spacing:.25em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--primary);box-shadow:0 0 8px currentColor}
+.dot.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}
+h2.title{font:600 clamp(34px,6vw,58px) Space Grotesk;margin:1rem 0 .6rem;letter-spacing:-.02em;line-height:1.1;background:linear-gradient(90deg,#fff,#5c8cff,#a26bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:14px;max-width:30rem;margin:0 auto}
+.hero{text-align:center;margin-bottom:2.5rem}
+.search{position:relative;margin-bottom:1.25rem}
+.search input{width:100%;padding:.85rem 1rem .85rem 2.75rem;border-radius:999px;border:1px solid var(--border);background:rgba(40,40,80,.45);color:var(--fg);font-size:14px;outline:none;backdrop-filter:blur(12px)}
+.search input:focus{border-color:rgba(92,140,255,.6);box-shadow:0 0 0 4px rgba(92,140,255,.18)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);width:16px;height:16px}
+.cats{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.75rem;margin-bottom:2rem;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;padding:.4rem .9rem;border-radius:999px;border:1px solid var(--border);background:rgba(40,40,80,.4);color:var(--muted);font:500 11px JetBrains Mono;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.2s}
+.cat:hover{color:var(--fg);border-color:rgba(92,140,255,.5)}
+.cat.active{background:var(--grad);background-size:200% 200%;animation:shift 4s ease infinite;color:#fff;border-color:transparent;box-shadow:0 0 16px rgba(120,90,255,.5)}
+.card{position:relative;padding:2.5rem;overflow:hidden;animation:rise .5s ease}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card .blur1,.card .blur2{position:absolute;width:14rem;height:14rem;border-radius:50%;filter:blur(60px);opacity:.6;pointer-events:none}
+.card .blur1{top:-6rem;left:-6rem;background:rgba(92,140,255,.5)}
+.card .blur2{bottom:-6rem;right:-6rem;background:rgba(162,107,255,.5)}
+.card .inner{position:relative}
+.tag{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(92,140,255,.3);background:rgba(92,140,255,.1);color:var(--primary);padding:.25rem .65rem;border-radius:999px;font:500 10px JetBrains Mono;letter-spacing:.18em;text-transform:uppercase}
+.quote{font:500 clamp(24px,4.2vw,42px) Space Grotesk;line-height:1.18;letter-spacing:-.015em;margin:1.25rem 0 1.25rem}
+.quote .q{color:rgba(92,140,255,.6)}
+.quote .q2{color:rgba(162,107,255,.6)}
+.author{font:500 11px JetBrains Mono;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.actions{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border-radius:999px;border:1px solid var(--border);background:rgba(40,40,80,.4);color:var(--muted);font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{color:var(--fg);border-color:rgba(92,140,255,.5);background:rgba(92,140,255,.1)}
+.btn svg{width:15px;height:15px}
+.btn.fav{color:var(--danger);border-color:rgba(255,85,119,.4)}
+.share-mini{margin-left:auto;display:flex;gap:.25rem}
+.share-mini button{background:none;border:none;color:var(--muted);font:500 10px JetBrains Mono;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:.4rem .6rem;border-radius:999px}
+.share-mini button:hover{color:var(--primary)}
+.new{display:flex;justify-content:center;margin-top:2rem}
+.new button{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.75rem;border-radius:999px;border:none;background:var(--grad);background-size:200% 200%;animation:shift 4s ease infinite;color:#fff;font-weight:500;font-size:14px;cursor:pointer;box-shadow:0 0 30px rgba(120,90,255,.5);transition:.2s}
+.new button:hover{box-shadow:0 0 40px rgba(120,90,255,.75)}
+.new button svg{width:16px;height:16px;transition:.5s}
+.new button:hover svg{transform:rotate(180deg)}
+.meta{text-align:center;margin-top:1rem;font:500 10px JetBrains Mono;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.empty{padding:2.5rem;text-align:center;color:var(--muted)}
+.list{display:flex;flex-direction:column;gap:1rem}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(30,30,60,.95);color:var(--fg);padding:.7rem 1.2rem;border-radius:12px;border:1px solid var(--border);font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:.25s;z-index:50;backdrop-filter:blur(20px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:1.25rem;font:500 10px JetBrains Mono;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-align:center}
+.fav-toggle{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .85rem;border-radius:999px;border:1px solid var(--border);background:rgba(40,40,80,.4);color:var(--fg);font:500 12px JetBrains Mono;cursor:pointer}
+.fav-toggle.on{background:var(--grad);background-size:200%;animation:shift 4s ease infinite;border-color:transparent;color:#fff;box-shadow:0 0 20px rgba(120,90,255,.5)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="particles" id="particles"></div>
+<div class="toast" id="toast"></div>
+<header>
+  <div class="nav">
+    <a class="brand" href="#">
+      <div class="logo">✦</div>
+      <div><h1>Nebula</h1><small>quotes.v2</small></div>
+    </a>
+    <button class="fav-toggle" id="favToggle">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span id="favCount">0</span>
+    </button>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="hero">
+      <div class="chip"><span class="dot pulse"></span><span id="modeLabel">Random signal generator</span></div>
+      <h2 class="title">Random Quote Generator</h2>
+      <p class="sub">Fuel your day with powerful words, timeless wisdom, and fresh inspiration—one quote at a time.</p>
+    </div>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" placeholder="Search quotes, authors, categories…" />
+    </div>
+    <div class="cats" id="cats"></div>
+    <div id="view"></div>
+  </div>
+</main>
+<footer>Nebula · v2.0 &nbsp;·&nbsp; <span id="total"></span> quotes online</footer>
+<script>
+const QUOTES = [
+  {id:"1",text:"The only way to do great work is to love what you do.",author:"Steve Jobs",category:"Motivation"},
+  {id:"2",text:"Success is not final, failure is not fatal: it is the courage to continue that counts.",author:"Winston Churchill",category:"Success"},
+  {id:"3",text:"In the middle of difficulty lies opportunity.",author:"Albert Einstein",category:"Wisdom"},
+  {id:"4",text:"Life is what happens when you're busy making other plans.",author:"John Lennon",category:"Life"},
+  {id:"5",text:"The future belongs to those who believe in the beauty of their dreams.",author:"Eleanor Roosevelt",category:"Motivation"},
+  {id:"6",text:"It does not matter how slowly you go as long as you do not stop.",author:"Confucius",category:"Discipline"},
+  {id:"7",text:"Innovation distinguishes between a leader and a follower.",author:"Steve Jobs",category:"Leadership"},
+  {id:"8",text:"The best way to predict the future is to invent it.",author:"Alan Kay",category:"Technology"},
+  {id:"9",text:"Happiness is not something ready-made. It comes from your own actions.",author:"Dalai Lama",category:"Happiness"},
+  {id:"10",text:"Creativity is intelligence having fun.",author:"Albert Einstein",category:"Creativity"},
+  {id:"11",text:"Your time is limited, don't waste it living someone else's life.",author:"Steve Jobs",category:"Life"},
+  {id:"12",text:"Talk is cheap. Show me the code.",author:"Linus Torvalds",category:"Programming"},
+  {id:"13",text:"The only limit to our realization of tomorrow is our doubts of today.",author:"Franklin D. Roosevelt",category:"Wisdom"},
+  {id:"14",text:"Quality is not an act, it is a habit.",author:"Aristotle",category:"Discipline"},
+  {id:"15",text:"First, solve the problem. Then, write the code.",author:"John Johnson",category:"Programming"},
+  {id:"16",text:"The customer's perception is your reality.",author:"Kate Zabriskie",category:"Business"},
+  {id:"17",text:"Any sufficiently advanced technology is indistinguishable from magic.",author:"Arthur C. Clarke",category:"Technology"},
+  {id:"18",text:"Simplicity is the soul of efficiency.",author:"Austin Freeman",category:"Productivity"},
+  {id:"19",text:"You can't use up creativity. The more you use, the more you have.",author:"Maya Angelou",category:"Creativity"},
+  {id:"20",text:"Discipline is the bridge between goals and accomplishment.",author:"Jim Rohn",category:"Discipline"},
+  {id:"21",text:"Don't watch the clock; do what it does. Keep going.",author:"Sam Levenson",category:"Motivation"},
+  {id:"22",text:"Strive not to be a success, but rather to be of value.",author:"Albert Einstein",category:"Success"},
+  {id:"23",text:"Move fast and break things.",author:"Mark Zuckerberg",category:"Startup"},
+  {id:"24",text:"Knowing yourself is the beginning of all wisdom.",author:"Aristotle",category:"Wisdom"},
+  {id:"25",text:"A leader is one who knows the way, goes the way, and shows the way.",author:"John C. Maxwell",category:"Leadership"},
+  {id:"26",text:"Your most unhappy customers are your greatest source of learning.",author:"Bill Gates",category:"Business"},
+  {id:"27",text:"Technology is best when it brings people together.",author:"Matt Mullenweg",category:"Technology"},
+  {id:"28",text:"Programs must be written for people to read, and only incidentally for machines to execute.",author:"Harold Abelson",category:"Programming"},
+  {id:"29",text:"Every artist was first an amateur.",author:"Ralph Waldo Emerson",category:"Creativity"},
+  {id:"30",text:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",author:"Will Durant",category:"Discipline"},
+  {id:"31",text:"When something is important enough, you do it even if the odds are not in your favor.",author:"Elon Musk",category:"Innovation"},
+  {id:"32",text:"The people who are crazy enough to think they can change the world are the ones who do.",author:"Steve Jobs",category:"Innovation"},
+  {id:"33",text:"Simplicity is the ultimate sophistication.",author:"Leonardo da Vinci",category:"Wisdom"},
+  {id:"34",text:"Make each day your masterpiece.",author:"John Wooden",category:"Life"},
+  {id:"35",text:"Code is like humor. When you have to explain it, it's bad.",author:"Cory House",category:"Programming"},
+  {id:"36",text:"Chase the vision, not the money; the money will end up following you.",author:"Tony Hsieh",category:"Startup"},
+];
+const CATEGORIES=["All",...Array.from(new Set(QUOTES.map(q=>q.category)))];
+const state={cat:"All",q:"",favs:JSON.parse(localStorage.getItem("nebula:favs")||"[]"),current:QUOTES[0],showFavs:false};
+const $=s=>document.querySelector(s);
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1800)}
+function saveFavs(){localStorage.setItem("nebula:favs",JSON.stringify(state.favs));$("#favCount").textContent=state.favs.length}
+function toggleFav(id){const i=state.favs.indexOf(id);if(i>-1){state.favs.splice(i,1);toast("Removed from favorites")}else{state.favs.push(id);toast("Quote saved.")}saveFavs();render()}
+function copy(t){navigator.clipboard.writeText(t);toast("Quote copied successfully.")}
+function share(t,p){const u=location.href;if(p==="twitter")open("https://twitter.com/intent/tweet?text="+encodeURIComponent(t),"_blank");else if(p==="whatsapp")open("https://wa.me/?text="+encodeURIComponent(t),"_blank");else if(p==="linkedin")open("https://www.linkedin.com/sharing/share-offsite/?url="+encodeURIComponent(u),"_blank");else if(navigator.share)navigator.share({text:t}).catch(()=>{});else copy(t)}
+function pool(){let p=QUOTES;if(state.showFavs)p=p.filter(q=>state.favs.includes(q.id));if(state.cat!=="All")p=p.filter(q=>q.category===state.cat);if(state.q.trim()){const s=state.q.toLowerCase();p=p.filter(q=>q.text.toLowerCase().includes(s)||q.author.toLowerCase().includes(s)||q.category.toLowerCase().includes(s))}return p}
+function pick(){const p=pool();const src=p.length?p:QUOTES;let n=src[Math.floor(Math.random()*src.length)];let g=0;while(n.id===state.current.id&&g<10&&src.length>1){n=src[Math.floor(Math.random()*src.length)];g++}state.current=n;render()}
+function cardHTML(q){const fav=state.favs.includes(q.id);const t=`"${q.text}" — ${q.author}`;return `
+<article class="glass card">
+  <div class="blur1"></div><div class="blur2"></div>
+  <div class="inner">
+    <span class="tag"><span class="dot"></span>${q.category}</span>
+    <p class="quote"><span class="q">"</span>${q.text}<span class="q2">"</span></p>
+    <p class="author">— ${q.author}</p>
+    <div class="actions">
+      <button class="btn ${fav?'fav':''}" data-fav="${q.id}"><svg viewBox="0 0 24 24" fill="${fav?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${fav?'Saved':'Save'}</button>
+      <button class="btn" data-copy='${t.replace(/'/g,"&apos;")}'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
+      <button class="btn" data-share='${t.replace(/'/g,"&apos;")}'><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>Share</button>
+      <div class="share-mini">
+        <button data-sx="twitter" data-t='${t.replace(/'/g,"&apos;")}'>X</button>
+        <button data-sx="whatsapp" data-t='${t.replace(/'/g,"&apos;")}'>WA</button>
+        <button data-sx="linkedin" data-t='${t.replace(/'/g,"&apos;")}'>In</button>
+      </div>
+    </div>
+  </div>
+</article>`}
+function render(){
+  $("#modeLabel").textContent=state.showFavs?"Your saved signals":"Random signal generator";
+  $("#favToggle").classList.toggle("on",state.showFavs);
+  $("#cats").innerHTML=CATEGORIES.map(c=>`<button class="cat ${c===state.cat?'active':''}" data-cat="${c}">${c}</button>`).join("");
+  const p=pool();const browse=state.q.trim()||state.showFavs;
+  if(browse){
+    $("#view").innerHTML=p.length?`<div class="list">${p.map(cardHTML).join("")}</div>`:`<div class="glass empty">${state.showFavs?"No favorites yet. Tap the heart on any quote to save it.":"No quotes match your search."}</div>`
+  }else{
+    $("#view").innerHTML=cardHTML(state.current)+`<div class="new"><button id="new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>New quote</button></div><p class="meta">Drawing from ${p.length} ${p.length===1?'signal':'signals'}${state.cat!=='All'?' · '+state.cat:''}</p>`;
+    $("#new").onclick=pick
+  }
+  $("#total").textContent=QUOTES.length;
+  document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{state.cat=b.dataset.cat;render()});
+  document.querySelectorAll("[data-fav]").forEach(b=>b.onclick=()=>toggleFav(b.dataset.fav));
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copy(b.dataset.copy));
+  document.querySelectorAll("[data-share]").forEach(b=>b.onclick=()=>share(b.dataset.share));
+  document.querySelectorAll("[data-sx]").forEach(b=>b.onclick=()=>share(b.dataset.t,b.dataset.sx));
+}
+$("#search").addEventListener("input",e=>{state.q=e.target.value;render()});
+$("#favToggle").addEventListener("click",()=>{state.showFavs=!state.showFavs;render()});
+// particles
+const pc=$("#particles");for(let i=0;i<16;i++){const s=document.createElement("span");const sz=4+(i%4)*2;s.style.cssText=`width:${sz}px;height:${sz}px;left:${(i*73)%100}%;top:${(i*53)%100}%;animation-delay:${i*.6}s`;pc.appendChild(s)}
+saveFavs();state.current=QUOTES[Math.floor(Math.random()*QUOTES.length)];render();
+</script>
+</body>
+</html>
